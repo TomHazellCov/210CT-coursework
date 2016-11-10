@@ -32,7 +32,6 @@ public class Task2 {
     }
 
     /**
-     *
      * @param matrix1 a matrix to be added/subtracted mus tbe same size as matrix2
      * @param matrix2 a matrix to be added/subtracted must be same size as matrix1
      * @param toAdd boolean if true it will add the matrixes if false it will subtract
