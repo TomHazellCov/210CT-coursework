@@ -3,7 +3,7 @@ package com.tomhazell.ct210.week2;
 public class Main {
 
     public static void main(String[] args) {
-        task1(1, 20, 3, 5);
+        task3(1, 20, 3, 5);
     }
 
     /**
@@ -15,7 +15,7 @@ public class Main {
      * @param k2 where m2*n + k2 is the second equation
      * @return the input value at which one overtakes the other in relative run time.
      */
-    static int task1(int m1, int k1, int m2, int k2) {
+    static int task3(int m1, int k1, int m2, int k2) {
         //work which is initially faster
         boolean isAFaster = m1 + k1 > m2 + k2;
         int count = 1;

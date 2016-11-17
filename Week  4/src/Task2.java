@@ -4,10 +4,9 @@ import java.util.Random;
 import java.util.Scanner;
 
 /**
- * Created by Tom Hazell on 01/11/2016.
+ * advanced task 2
  */
 public class Task2 {
-
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -16,49 +15,56 @@ public class Task2 {
         System.out.println("What position do you want");
         int m = scanner.nextInt();
         List<Integer> initalList = new ArrayList<>();
-        for (String s : input.split(" ")){
+        for (String s : input.split(" ")) {
             initalList.add(Integer.parseInt(s));
         }
 
         System.out.print(quick(initalList, m));
     }
 
-    private static Integer quick(List<Integer> list, int m){
+    /**
+     * @param list the list t to search through
+     * @param m    the position in the list to find
+     * @return the result when its found
+     */
+    private static Integer quick(List<Integer> list, int m) {
         Random rand = new Random();
 
-        if (list.size() == 1){
+        if (list.size() == 1) {
             return list.get(0);
-        }else{
+        } else {
+            //check if all the elements in the list are the same, if they are then you have the solution.
             int last = list.get(0);
             boolean allSame = true;
 
             for (int i = 1; i < list.size(); i++) {
-                if (last != list.get(i)){
+                if (last != list.get(i)) {
                     allSame = false;
                     break;
                 }
             }
-            if (allSame){
+            if (allSame) {
                 return list.get(0);
             }
         }
 
+        //get a pivot by selecting a random element
         int pivot = list.get(rand.nextInt(list.size()));
 
-        List<Integer> smaller = new ArrayList<>();//for smaller than or equlal
-        List<Integer> larger = new ArrayList<>();
+        List<Integer> smaller = new ArrayList<>();//for ints smaller than or equal
+        List<Integer> larger = new ArrayList<>();//for ints larger than
 
-        for (Integer i : list){
-            if (i > pivot){
+        for (Integer i : list) {
+            if (i > pivot) {
                 larger.add(i);
-            }else{
+            } else {
                 smaller.add(i);
             }
         }
 
-        if (m <= smaller.size()){//use smaller list
+        if (m <= smaller.size()) {//use smaller list
             return quick(smaller, m);
-        }else{//use larger list
+        } else {//use larger list
             m = m - smaller.size();
             return quick(larger, m);
         }

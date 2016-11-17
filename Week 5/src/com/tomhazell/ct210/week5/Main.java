@@ -15,6 +15,8 @@ public class Main {
     }
 
     /**
+     * Taken from week 1's work
+     *
      * @param matrix1 a matrix to be added/subtracted mus tbe same size as matrix2
      * @param matrix2 a matrix to be added/subtracted must be same size as matrix1
      * @return the result of the multiplication

@@ -31,7 +31,7 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        //get all of the basic veriables
+        //get all of the basic variables
         n = scanner.nextInt();
         m = scanner.nextInt();
         i = scanner.nextInt();
@@ -40,7 +40,7 @@ public class Main {
         exitY = scanner.nextInt();
         //this is required as it returns ""
         scanner.nextLine();
-        //for eatch line up to m split in to chars, convert them to ints then add them to the maze list
+        //for each line up to m split in to chars, convert them to ints then add them to the maze list
         int count = 0;
         while (count < m) {
             count++;
@@ -62,8 +62,8 @@ public class Main {
 
     /**
      * This will navigate the maze
-     * @param current the curren potion in the maze
-     * @return boolean, false if we cant find an exit (meaning they have all been found or we cant reatch it)
+     * @param current the current potion in the maze
+     * @return boolean, false if we cant find an exit (meaning they have all been found or we cant reach it)
      */
     public static boolean recessive(Position current) {
         int currentX = current.getX();

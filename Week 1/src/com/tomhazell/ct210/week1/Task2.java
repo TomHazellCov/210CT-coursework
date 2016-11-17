@@ -15,6 +15,11 @@ public class Task2 {
         MatrixUtils.printMatrix(solution);
     }
 
+    /**
+     * This initialises 2 slightly random matrixs of size 2*3
+     * @param matrix1 the first matrix to fill up
+     * @param matrix2 the second matrix to fill up
+     */
     private static void initMatrixes(int[][] matrix1, int[][] matrix2) {
         matrix1[0][0] = 1;
         matrix1[0][1] = 2;
@@ -32,7 +37,7 @@ public class Task2 {
     }
 
     /**
-     * @param matrix1 a matrix to be added/subtracted mus tbe same size as matrix2
+     * @param matrix1 a matrix to be added/subtracted must be same size as matrix2
      * @param matrix2 a matrix to be added/subtracted must be same size as matrix1
      * @param toAdd boolean if true it will add the matrixes if false it will subtract
      * @return the result of the addition or subtraction

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * Created by tom on 10/11/16.
+ * Advanced task 2
  */
 public class Task2 {
 
@@ -13,7 +13,7 @@ public class Task2 {
         List<Element> list = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Type The nth child on one line, no the next all the names seperated by a comma and on the final one who to start on");
+        System.out.println("Type The nth child on one line, no the next all the names separated by a comma and on the final one who to start on");
         int nth = Integer.parseInt(scanner.nextLine());
         String names = scanner.nextLine();
         String starting = scanner.nextLine();
@@ -54,11 +54,10 @@ public class Task2 {
         }
 
         System.out.println("Winner: " + search.getName());
-
     }
 
     /**
-     * A simple class used in hte linked list to store the next element and the name of the current element
+     * A simple class used in the linked list to store the next element and the name of the current element
      */
     static class Element {
         private String name;
