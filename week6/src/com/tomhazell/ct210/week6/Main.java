@@ -6,6 +6,9 @@ import java.io.IOException;
 
 public class Main {
 
+    /**
+     * class used for storing data about each element in a tree
+     */
     static class Node {
         private String word;
         private int frequency;
@@ -72,25 +75,36 @@ public class Main {
     public static void main(String[] args) {
         Node root = null;
 
+        //read in all elements from the csv file, for each add it to the tree in the appropriate position using the
+        // insertNode function
         try (BufferedReader br = new BufferedReader(new FileReader("paragraph.csv"))) {
             String line = "";
 
             while ((line = br.readLine()) != null) {
-
                 String[] parts = line.split(",");
 
                 root = insertNode(Integer.parseInt(parts[0]), parts[1], root);
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.toString());
+            return;
         }
+
+        System.out.println("Pre Order Printing");
         preOrder(root);
-        System.out.println();
+        System.out.println("Searching for work");
         findWord("work", root);
 
     }
 
+    /**
+     * This searches the binary search tree to find a specific work and prints out its path getting there
+     * and "yes" if it finds it or "no" if it dose not
+     *
+     * @param word
+     * @param root
+     */
     private static void findWord(String word, Node root) {
         System.out.println("At " + root.getWord());
 
@@ -98,14 +112,14 @@ public class Main {
             System.out.println("Yes");
         } else {
             if (word.compareTo(root.getWord()) > 0) {//data > root.getWord
-                if (root.getRight() == null){
+                if (root.getRight() == null) {
                     System.out.println("No");
                     return;
                 }
                 System.out.println("Going Right");
                 findWord(word, root.getRight());
             } else {
-                if (root.getLeft() == null){
+                if (root.getLeft() == null) {
                     System.out.println("No");
                     return;
                 }
@@ -115,6 +129,11 @@ public class Main {
         }
     }
 
+    /**
+     * This prints out all nodes in the tree where the parameter root is the root of the tree to print
+     *
+     * @param root teh root of the tree.
+     */
     private static void preOrder(Node root) {
         System.out.println(root.getWord() + " " + root.getFrequency());
         if (root.getLeft() != null) {
@@ -125,11 +144,20 @@ public class Main {
         }
     }
 
-    public static Node insertNode(int val, String data, Node root) {
+    /**
+     * @param val  the frequency of the word
+     * @param data the word that is stored in each node and that the nodes are sorted by
+     * @param root the current root node (can be null)
+     * @return the root node after the addition operation
+     */
+    private static Node insertNode(int val, String data, Node root) {
+        //if the root is null then just create the root and return it
         if (root == null) {
             return new Node(val, data);
         } else {
+            //see what side of the tree this new node need to be on (compared to the current root node)
             if (data.compareTo(root.getWord()) > 0) {
+                //if that side of the tree is empty then create the new node, else recurse deeper
                 if (root.getRight() == null) {
                     Node node = new Node(val, data);
                     root.setRight(node);
@@ -138,6 +166,7 @@ public class Main {
                     return insertNode(val, data, root.getRight());
                 }
             } else {
+                //if that side of the tree is empty then create the new node, else recurse deeper
                 if (root.getLeft() == null) {
                     Node node = new Node(val, data);
                     root.setLeft(node);
@@ -147,6 +176,8 @@ public class Main {
                 }
             }
         }
+        //this is to ensure that we return the root node and not another node. This is used because in java all
+        // parameters are parsed by value not by reference
         Node node = root;
         while (node.getRoot() != null) {
             node = node.getRoot();
