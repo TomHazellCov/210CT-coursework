@@ -17,7 +17,7 @@ public class Main {
         graph.addEdge(1, 2);
         graph.addEdge(1, 3);
         graph.addEdge(4, 3);
-        boolean result = graph.isPath(1, 3, true);
+        boolean result = graph.isPath(1, 4, true);
 
         graph.isConnected();
         System.out.println(result);
