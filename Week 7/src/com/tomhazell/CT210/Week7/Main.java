@@ -8,15 +8,20 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) throws IOException {
+        //initiate the graph
         Graph graph = new Graph();
+        //add nodes
         graph.addNode(1);
         graph.addNode(2);
         graph.addNode(3);
         graph.addNode(4);
 
+        //add deges
         graph.addEdge(1, 2);
         graph.addEdge(1, 3);
         graph.addEdge(4, 3);
+
+        //run is path method, keep ht result as well as printing outputto text file
         boolean result = graph.isPath(1, 4, true);
 
         graph.isConnected();
@@ -29,10 +34,10 @@ public class Main {
      */
     static class Graph {
         //use a map to store an adjacency list
-        Map<Integer, List<Integer>> graph = new HashMap<>();
+        private Map<Integer, List<Integer>> graph = new HashMap<>();
 
-        List<Integer> nodesBeenTo = new ArrayList<>();//used for the isPath Method
-        PrintWriter printWriter;//used for printing the isPath to file
+        private List<Integer> nodesBeenTo = new ArrayList<>();//used for the isPath Method
+        private PrintWriter printWriter;//used for printing the isPath to file
 
         /**
          * @param i the int to add as a node to the graph
@@ -94,10 +99,10 @@ public class Main {
          */
         public boolean isPath(Integer v, Integer k, boolean printToPath) throws IOException {
             nodesBeenTo.clear();
-            FileWriter write = new FileWriter("path.txt");
-            printWriter = new PrintWriter(write);
+            printWriter = new PrintWriter("path.txt", "UTF-8");
 
             boolean result = recIsPath(v, k, printToPath);
+            printWriter.flush();
             printWriter.close();
             return result;
         }
@@ -113,7 +118,8 @@ public class Main {
         private boolean recIsPath(Integer v, Integer k, boolean printToPath) {
             if (v.equals(k)) {
                 if (printToPath) {
-                    printWriter.println(k);
+                    printWriter.write(k);
+                    printWriter.println();
                 }
                 return true;
             }
@@ -126,7 +132,8 @@ public class Main {
                     boolean result = recIsPath(i, k, printToPath);
                     if (result) {
                         if (printToPath) {
-                            printWriter.println(v);
+                            printWriter.write(v);
+                            printWriter.println();
                         }
                         return true;
                     }
