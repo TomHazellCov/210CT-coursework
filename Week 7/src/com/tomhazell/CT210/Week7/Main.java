@@ -1,5 +1,6 @@
 package com.tomhazell.CT210.Week7;
 
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -37,7 +38,7 @@ public class Main {
         private Map<Integer, List<Integer>> graph = new HashMap<>();
 
         private List<Integer> nodesBeenTo = new ArrayList<>();//used for the isPath Method
-        private PrintWriter printWriter;//used for printing the isPath to file
+        private BufferedWriter bufferedWriter;//used for printing the isPath to file
 
         /**
          * @param i the int to add as a node to the graph
@@ -99,11 +100,11 @@ public class Main {
          */
         public boolean isPath(Integer v, Integer k, boolean printToPath) throws IOException {
             nodesBeenTo.clear();
-            printWriter = new PrintWriter("path.txt", "UTF-8");
-
+            FileWriter out = new FileWriter("path.txt", true);
+            bufferedWriter = new BufferedWriter(out);
             boolean result = recIsPath(v, k, printToPath);
-            printWriter.flush();
-            printWriter.close();
+            bufferedWriter.close();
+            out.close();
             return result;
         }
 
@@ -115,11 +116,12 @@ public class Main {
          * @param k An int/vertex in the graph
          * @return a boolean, true if a path is found false otherwise
          */
-        private boolean recIsPath(Integer v, Integer k, boolean printToPath) {
+        private boolean recIsPath(Integer v, Integer k, boolean printToPath) throws IOException {
             if (v.equals(k)) {
                 if (printToPath) {
-                    printWriter.write(k);
-                    printWriter.println();
+                    bufferedWriter.write(k.toString());
+                    System.out.println(k.toString());
+                    bufferedWriter.write("\n");
                 }
                 return true;
             }
@@ -132,8 +134,9 @@ public class Main {
                     boolean result = recIsPath(i, k, printToPath);
                     if (result) {
                         if (printToPath) {
-                            printWriter.write(v);
-                            printWriter.println();
+                            bufferedWriter.write(v.toString());
+                            System.out.println(v.toString());
+                            bufferedWriter.write("\n");
                         }
                         return true;
                     }
