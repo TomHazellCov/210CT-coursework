@@ -91,7 +91,7 @@ public class Main {
         }
 
         /**
-         * Navigates teh grtaph and stores the path betwen v and k (if there is one) in path.txt
+         * Navigates the graph and stores the path between v and k (if there is one) in path.txt
          * Used to set up the method #recIsPath
          *
          * @param v An int/vertex in the graph
