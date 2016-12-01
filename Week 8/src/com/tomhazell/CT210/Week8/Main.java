@@ -12,16 +12,27 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) throws IOException {
+        //Initiate the graph object
         Graph graph = new Graph();
+
+        //add all the nodes
         graph.addNode(1);
         graph.addNode(2);
         graph.addNode(3);
-        graph.addNode(3);
+        graph.addNode(4);
+        graph.addNode(5);
+        graph.addNode(6);
 
-        graph.addEdge(1, 2, 9);
-        graph.addEdge(2, 3, 9);
-        graph.addEdge(1, 3, 2);
-        graph.addEdge(2, 4, 1);
+        //add all the edges
+        graph.addEdge(1, 2, 1);
+        graph.addEdge(1, 4, 4);
+        graph.addEdge(2, 5, 2);
+        graph.addEdge(2, 4, 4);
+        graph.addEdge(1, 5, 3);
+        graph.addEdge(4, 5, 4);
+        graph.addEdge(3, 5, 4);
+        graph.addEdge(3, 6, 5);
+        graph.addEdge(5, 6, 7);
 
         graph.maxSpanningTree();
     }
@@ -47,7 +58,7 @@ public class Main {
         }
 
         /**
-         * Adds an edge betwen the 2 nodes
+         * Adds an edge between the 2 nodes
          *
          * @param from the int for one node in the edge
          * @param to   the int for one node in the edge
@@ -67,30 +78,6 @@ public class Main {
             toList.add(new Edge(weight, from));
             graph.put(to, toList);
         }
-
-//        /**
-//         * from week 8
-//         */
-//        public boolean isConnected() throws IOException {
-//            Integer startingNode = null;
-//            //because it is undirected if you can get from one node to everyother node the graph is connected
-//            for (Integer i : graph.keySet()) {
-//                //pick the first node as the starting node
-//                if (startingNode == null) {
-//                    startingNode = i;
-//                }
-//
-//                //see if the current node is connected to the starting node
-//                if (!isPath(startingNode, i, graph)) {
-//                    //if they are not connected then exit out of the method as we are not in a connected graph
-//                    System.out.println("No");
-//                    return false;
-//                }
-//            }
-//
-//            System.out.println("Yes");
-//            return true;
-//        }
 
         /**
          * Mostly from week 8
@@ -162,64 +149,55 @@ public class Main {
         }
 
         public void maxSpanningTree() throws IOException {
+            //this is hte map we will store the new graph in
             Map<Integer, List<Edge>> newGraph = new HashMap<>();
 
-            //add all graps to a list
+            //add all edges to a list
             List<Edge> edges = new ArrayList<>();
             for (Map.Entry<Integer, List<Edge>> entry : graph.entrySet()) {
                 for (Edge edge : entry.getValue()) {
-                    edge.from = entry.getKey();
+                    edge.setFrom(entry.getKey());
                     if (!edges.contains(edge)) {
                         edges.add(edge);
                     }
                 }
             }
 
+            //sort the list of edges in reverse order by weight see Edge.compareTo
             Collections.sort(edges);
 
-            while (edges.size() > 0) {
+            while (edges.size() > 0) {//we would idealy use a isConnected() method here but that would be considerably less efficient
                 //get and  remove the longest edge
                 Edge edge = edges.get(0);
                 edges.remove(0);
 
-                if ((!newGraph.containsKey(edge.from) || !newGraph.containsKey(edge.to)) || !isPath(edge.getTo(), edge.getFrom(), newGraph)) {
-                    //we will not create a cycle by inputing this edge
+                //if the graph already contains a path betwen the 2 nodes specifyed in the edge (meaning we would create a cycle by adding the new edge)
+                //then dont run the next code block
+                if ((!newGraph.containsKey(edge.getFrom()) || !newGraph.containsKey(edge.getTo())) || !isPath(edge.getTo(), edge.getFrom(), newGraph)) {
+                    //add the edge to the new graph
                     List<Edge> fromList = newGraph.get(edge.getFrom()) != null ? newGraph.get(edge.getFrom()) : new ArrayList<>();
                     List<Edge> toList = newGraph.get(edge.getTo()) != null ? newGraph.get(edge.getTo()) : new ArrayList<>();
 
-                    fromList.add(new Edge(edge.weight, edge.to));
-                    toList.add(new Edge(edge.weight, edge.from));
+                    fromList.add(new Edge(edge.getWeight(), edge.getTo()));
+                    toList.add(new Edge(edge.getWeight(), edge.getFrom()));
 
                     newGraph.put(edge.getFrom(), fromList);
                     newGraph.put(edge.getTo(), toList);
                 }
             }
 
-            System.out.println("Printing pre and post order of max cost spaning tree");
+            System.out.println("Printing pre and post order of max cost spanning tree");
             printSpanningTree(newGraph);
-
-
-            // Now do pre and post order traversal of the tree
-        }
-
-        private void printGraph(Map<Integer, List<Edge>> graph) {
-
         }
 
         class Edge implements Comparable {
             private Integer weight;
             private Integer to;
-            private Integer from;//only used for hte spanning tree
+            private Integer from;//only used for the spanning tree to store all edges
 
             public Edge(Integer weight, Integer to) {
                 this.weight = weight;
                 this.to = to;
-            }
-
-            public Edge(Integer weight, Integer to, Integer from) {
-                this.weight = weight;
-                this.to = to;
-                this.from = from;
             }
 
             public Edge() {
@@ -249,6 +227,10 @@ public class Main {
                 this.weight = weight;
             }
 
+
+            /**
+             * re writen the equals method because i want to and from to be interchangeable
+             */
             @Override
             public boolean equals(Object o) {
                 if (this == o) return true;
@@ -271,15 +253,9 @@ public class Main {
 
             }
 
-            @Override
-            public int hashCode() {
-                int result = weight != null ? weight.hashCode() : 0;
-                result = 31 * result + (to != null ? to.hashCode() : 0);
-                return result;
-            }
-
             /**
-             * sort by weight in reverse order
+             * sort by weight in reverse order,
+             * used by Collections.sort(List<Edge>);
              */
             @Override
             public int compareTo(Object o) {
